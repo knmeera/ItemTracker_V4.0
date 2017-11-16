@@ -1,0 +1,97 @@
+﻿@model  IPagedList<ERP.Project.Data.Models.TrackerItem>
+@using ERP.Project.Data.Models;
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Excel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2> Add By Excel</h2>
+@using (Html.BeginForm("Excel", "Excel",FormMethod.Post,new { id = "myForm",enctype = "multipart/form-data" }))
+{
+    <table>
+        <tr>
+            <td>
+                <input type="file" name="file" />
+                <input type="submit" value="Add" />
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.ViewBag.Error</td>
+        </tr>
+    </table>
+}
+@Html.ActionLink("Download Sample File", "DownloadSampleFile", "Excel")
+<div class="container">
+    <div class="table-responsive">
+
+        <table class="table">
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Project Id</th>
+                    <th>Assigned To</th>
+                    <th>Priority</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Created Date</th>
+                    <th>Assigned Date</th>
+                    <th>Resolved Date</th>
+                    <th>End Date</th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.project.ProjectName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AssignedTo)
+                    </td>
+
+                    <td style="background-color:@Html.DisplayFor(modelItem => item.ItemPriority.ColorCode)">
+                        @Html.DisplayFor(modelItem => item.ItemPriority.PriorityName)
+                    </td>
+
+                    <td style="background-color:@Html.DisplayFor(modelItem => item.ItemType.ColorCode)">
+                        @Html.DisplayFor(modelItem => item.ItemType.ItemName)
+                    </td>
+
+                    <td style="background-color:@Html.DisplayFor(modelItem => item.ItemStatus.ColorCode)">
+                        @Html.DisplayFor(modelItem => item.ItemStatus.ItemStatusName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modeltem => item.ItemCreatedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelAssignedDate => item.AssignedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(ModelResolvedDate => item.ResolvedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemEndDate)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ItemId, Name = item.AssignedTo }) |
+                        @Html.ActionLink("Details", "DetailsView", new { id = item.ItemId, Name = item.AssignedTo }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ItemId })
+                    </td>
+                </tr>
+            }
+
+        </table>
+        <p>
+            @Html.PagedListPager(Model, page => Url.Action("Excel", new { page}),
+          new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })
+    </p>
+    </div>
+</div>
+
