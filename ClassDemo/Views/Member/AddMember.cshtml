@@ -46,7 +46,8 @@
         </tr>
         <tr>
             <td>User Name</td>
-            <td>@Html.TextBoxFor(m=>m.UserName, new { @class = "form-control"})</td>
+           <td><input type="text" class="form-control" oninput="checkUser()" /></td>
+            <td>@Html.TextBoxFor(m=>m.UserName, new {  @class = "form-control"})</td>
             <td>@Html.ValidationMessageFor(model => model.UserName)</td>
         </tr>
         <tr>
@@ -59,3 +60,12 @@
     <p style="color:red;">@Html.ViewBag.status</p>
     <input class="btn btn-success" type="submit" value="Register" />
 }
+<script>
+    function checkUser(username)
+    {
+        $.ajax({
+            type: "Get",
+            data:""
+        })
+    }
+</script>

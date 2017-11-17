@@ -21,7 +21,7 @@ namespace ClassDemo
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/respond.js", "~/Scripts/CustomScript.js"));
+                      "~/Scripts/respond.js", "~/Scripts/CustomScript.js","~/Scripts/validation.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

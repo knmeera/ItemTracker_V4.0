@@ -10,7 +10,7 @@
 
 <h2>Items List <span style="font-size:large;padding-left:2em;">@Html.ActionLink("Add Items", "CreateItem") </span></h2>
 
-<div  class="container" style=" background-color:#222;padding-left:1em;border-radius:8px 8px;padding-top:1em;padding-bottom:1em;">
+<div class="container" style=" background-color:#222;padding-left:1em;border-radius:8px 8px;padding-top:1em;padding-bottom:1em;">
     <h2 style="font-size:16px;font-family:'Segoe UI';font-weight:900; margin-left:20px;color:white;"> Filter</h2>
     <div>
         @using (Html.BeginForm("ItemsList", "Home", FormMethod.Post))
@@ -19,7 +19,7 @@
                 @Html.DropDownList("ItemProjectId", (IEnumerable<SelectListItem>)ViewBag.Project, "- Project -", new { @class = "form-control" })
             </p>
             <p class="col col-sm-2">
-                @Html.DropDownList("ItemPriorityId", (IEnumerable<SelectListItem>)ViewBag.ItemPriorityVB,"- Priority -", new { @class = "form-control" })
+                @Html.DropDownList("ItemPriorityId", (IEnumerable<SelectListItem>)ViewBag.ItemPriorityVB, "- Priority -", new { @class = "form-control" })
             </p>
             <p class="col col-sm-2">
                 @Html.DropDownList("ItemStatusId", (IEnumerable<SelectListItem>)ViewBag.ItemStatusVB, "- Status -", new { @class = "form-control" })
@@ -30,7 +30,7 @@
             <p class="col col-sm-2">
                 @Html.DropDownList("ItemCategoryId", (IEnumerable<SelectListItem>)ViewBag.CategoryVB, "- Category -", new { @class = "form-control" })
             </p>
-            
+
             <input class="col col-sm-1 btn btn-success" type="submit" value="filter" />
         }
     </div>
@@ -90,52 +90,34 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ItemEndDate)
                     </td>
-                  
+
 
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ItemId ,Name = item.AssignedTo}) |
-                        @Html.ActionLink("Details", "DetailsView", new { id = item.ItemId, Name = item.AssignedTo }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ItemId })
-
+                        <a href="@Url.Action("Edit", "Home", new { id = item.ItemId, Name = item.AssignedTo })" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
+                        <a href="@Url.Action("DetailsView", "Home", new { id = item.ItemId, Name = item.AssignedTo })" class="btn btn-primary"><i class="glyphicon glyphicon-list"></i></a>
+                        <a href="@Url.Action("Delete", "Home", new { id = item.ItemId })" clas class="btn btn-danger" onclick="return confirmation()"><i class="glyphicon glyphicon-trash"></i></a>
                     </td>
                 </tr>
             }
 
         </table>
-        <p>@Html.PagedListPager(Model,page => Url.Action("ItemsList",new {page}),
-          new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })</p>
-        @Html.ActionLink("Download","GetExcel", "Excel")
+        <p>
+            @Html.PagedListPager(Model, page => Url.Action("ItemsList", new { page }),
+          new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded, DisplayPageCountAndCurrentLocation = true })
+        </p>
+        @Html.ActionLink("Download", "GetExcel", "Excel")
     </div>
 </div>
 
 <script>
-
-</script>
-
-
-
-<script>
-
- function deleteItemById(id) {
-        var cnf = confirm("Do you want delete this record! "+ id);
-
-        if (cnf == true) {
-            $.ajax({
-                type: "GET",
-                contentType: "application/json; charset=utf-8",
-                url: '@Url.Action("Delete", "Home")',
-                data: "ID=" + id,
-                dataType: "json",
-                success: function (data) {
-                    alert(data.message);
-
-                    location.reload();
-
-                },
-                error: function (error) {
-                    alert(error);
-                }
-            });
+    function confirmation() {
+        title: 'Delete!';
+        if (confirm("Do you want to delete!") == true) {
+            txt = "You pressed OK!";
+            return true
+        } else {
+            txt = "You pressed Cancel!";
+            return false
         }
-      }
+    }
 </script>

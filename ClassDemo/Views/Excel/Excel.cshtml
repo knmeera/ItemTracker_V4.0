@@ -80,9 +80,9 @@
                         @Html.DisplayFor(modelItem => item.ItemEndDate)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.ItemId, Name = item.AssignedTo }) |
-                        @Html.ActionLink("Details", "DetailsView", new { id = item.ItemId, Name = item.AssignedTo }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.ItemId })
+                        <a href="@Url.Action("Edit", "Home", new { id = item.ItemId, Name = item.AssignedTo })" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
+                        <a href="@Url.Action("DetailsView", "Home", new { id = item.ItemId, Name = item.AssignedTo })" class="btn btn-primary"><i class="glyphicon glyphicon-list"></i></a>
+                        <a href="@Url.Action("Delete", "Excel", new { id = item.ItemId })" clas class="btn btn-danger" onclick="return confirmation()"><i class="glyphicon glyphicon-trash"></i></a>
                     </td>
                 </tr>
             }
@@ -95,3 +95,15 @@
     </div>
 </div>
 
+<script>
+    function confirmation() {
+        title: 'Delete!';
+        if (confirm("Do you want to delete!") == true) {
+            txt = "You pressed OK!";
+            return true
+        } else {
+            txt = "You pressed Cancel!";
+            return false
+        }
+    }
+</script>

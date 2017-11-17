@@ -1,4 +1,16 @@
-﻿function EndDateValidation() {
+﻿function confirmation() {
+    title: 'Delete!';
+    if (confirm("Do you want to delete!") == true) {
+        txt = "You pressed OK!";
+        return true
+    } else {
+        txt = "You pressed Cancel!";
+        return false
+    }
+}
+
+
+function EndDateValidation() {
 
     var ResolvedDateVal = $("#ResolvedDate").val();
     var AssignedDateVal = $("#AssignedDate").val();

@@ -14,7 +14,7 @@ namespace ClassDemo.Controllers
     public class MemberController : BaseController
     {
         ProjectManagementDbContext db = new ProjectManagementDbContext();
-      
+
         public ActionResult AddMember()
         {
             ViewBag.Role = new SelectList(db.Roles, "RoleId", "UserRole");
@@ -30,29 +30,42 @@ namespace ClassDemo.Controllers
             ViewBag.Role = new SelectList(db.Roles, "RoleId", "UserRole");
             if (ModelState.IsValid)
             {
-                if (user == 0 && email == 0 && userAd==0)
+                if (user == 0 && email == 0 && userAd == 0)
                 {
                     db.Members.Add(reg);
                     db.SaveChanges();
                     ViewBag.RegStatus = "Registerd Sucessfully";
                     return View();
                 }
-                if(user>=1 || userAd>=1)
+                if (user >= 1 || userAd >= 1)
                 {
                     ViewBag.status = "username already exists";
                 }
-                if(email>=1)
+                if (email >= 1)
                 {
                     ViewBag.status = "email Id already exists";
                 }
-            }           
+            }
             return View();
         }
-       
-       
+        public void checkuser(string username)
+        {
+            var users = username;
+
+            if (db.Members.Any(m => m.UserName == users) || db.Members.Any(m => m.EmailId == users))
+            {
+                ViewBag.status = "username already exists";
+            }
+            int email = db.Members.Where(m => m.EmailId == users).Count();
+            if(db.Logins.Any(m => m.username == users))
+            {
+                ViewBag.status = "email Id already exists";
+            }
+        }
+
         public ActionResult Details()
         {
-             var id = Session["UserId"];
+            var id = Session["UserId"];
             ViewBag.Role = new SelectList(db.Roles, "RoleId", "UserRole");
             var det = db.Members.Find(id);
             return View(det);
@@ -68,7 +81,7 @@ namespace ClassDemo.Controllers
         public ActionResult Members()
         {
 
-            return View(db.Members.Include(m=>m.Role).ToList());
+            return View(db.Members.Include(m => m.Role).ToList());
         }
         public ActionResult AdminDetails()
         {
